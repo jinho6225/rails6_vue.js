@@ -1,11 +1,22 @@
 <template>
-    <div>
-        <b-form-textarea
-        id="textarea"
-        v-model="text"
-        placeholder="Enter todo..."        
-        ></b-form-textarea>
-        <b-button variant="success" @click="listAdd">Add list</b-button>
+    <div class="add">
+        <h3>Add Todo</h3>
+        <form @submit="onSubmit" v-if="mode === 'add'">
+            <input 
+            type="text" 
+            v-model="text"
+            placeholder="Enter todo..."
+            >
+            <input type="submit" value="Submit">
+        </form>
+        <form @submit="todoUpdate" v-else>
+            <input 
+            type="text" 
+            v-model="text"
+            placeholder="Enter todo..."
+            >
+            <input type="submit" value="Update">
+        </form>
     </div>
 </template>
 
@@ -13,18 +24,64 @@
   export default {
     data() {
       return {
-        text: null
+        text: null,
+        id: null,
+        mode: 'add'
       }
     },
+    created() {
+        this.emitter.on("editTodo", (todo) => {
+            this.text = todo.title
+            this.id = todo.id
+            this.mode = 'edit'
+        })
+    },
     methods: {
-        listAdd() {
+        onSubmit(event) {
             if (this.text === null) {
                 alert('please enter todo')
             } 
             else {
+                event.preventDefault();
                 this.$emit("listAdd", this.text)
+                this.text = null
+            }
+        },
+        todoUpdate(event) {
+            if (this.text === null) {
+                alert('please enter todo')
+            } 
+            else {
+                event.preventDefault();
+                this.$emit("todoUpdate", this.text, this.id)
+                this.text = null
+                this.mode = 'add'
             }
         }
     }
   }
 </script>
+<style scoped>
+form {
+    display: flex;
+}
+input[type="text"] {
+    flex: 10;
+    padding: 10px;
+    border: 1px solid powderblue;
+    outline: 0;
+}
+input[type="text"]:hover, input[type="text"]:focus {
+    border: 1px solid blue;
+}
+input[type="submit"] {
+    flex: 2;
+    background: powderblue;
+    border: 0px powderblue solid;
+    cursor: pointer;
+}
+input[type="submit"]:hover {
+    background: rgb(90, 166, 176);
+    color: #fff;
+}
+</style>

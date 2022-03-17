@@ -5,7 +5,7 @@ class Api::V1::TodosController < ApplicationController
   def index
     @todos = Todo.all
 
-    render json: @todos
+    render json: @todos.reverse
   end
 
   # GET /todos/1
@@ -16,9 +16,8 @@ class Api::V1::TodosController < ApplicationController
   # POST /todos
   def create
     @todo = Todo.new(todo_params)
-
     if @todo.save
-      render json: @todo, status: :created, location: @todo
+      render json: @todo, status: :created, location: api_v1_todos_path(@todo)
     else
       render json: @todo.errors, status: :unprocessable_entity
     end
@@ -46,6 +45,7 @@ class Api::V1::TodosController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def todo_params
-      params.require(:todo).permit(:id, :title, :completed)
+      params.require(:todo).permit(:title, :completed)
     end
 end
+
