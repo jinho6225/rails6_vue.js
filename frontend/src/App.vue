@@ -28,52 +28,7 @@
 <script>
 import List from "./components/List.vue";
 import ListAdd from "./components/ListAdd.vue";
-
-const getList = async () => {
-  const res = await fetch("http://localhost:3000/api/v1/todos");
-  const data = await res.json();
-  return data;
-};
-const addList = async (title) => {
-  const res = await fetch("http://localhost:3000/api/v1/todos", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ todo: {title, completed: false}})
-  });
-  const data = await res.json();
-  return data;
-};
-const removeTodo = async (id) => {
-  console.log(id, 'id')
-  const res = await fetch(`http://localhost:3000/api/v1/todos/${id}`, {
-      method: "DELETE"
-  });
-  return res;
-};
-const completeTodo = async (id, completed) => {
-  const res = await fetch(`http://localhost:3000/api/v1/todos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ todo: {completed: !completed}})
-  });
-  const data = await res.json();
-  return data;
-};
-const updateTodo = async (title, id) => {
-  const res = await fetch(`http://localhost:3000/api/v1/todos/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ todo: { title }})
-  });
-  const data = await res.json();
-  return data;
-};
+import { api } from "./api"
 
 export default {
   name: "App",
@@ -87,14 +42,14 @@ export default {
     };
   },
   created() {
-    getList().then((data) => {
+    api.getList().then((data) => {
       this.todoList = data;
     });
   },
   watch: {
     todoList: function (newVal, old) {
       if (newVal.length !== old.length) {
-        getList().then((data) => {
+        api.getList().then((data) => {
           this.todoList = data;              
         });
       }
@@ -102,12 +57,12 @@ export default {
   },
   methods: {
     listAdd(todo) {
-      addList(todo).then((data) => {        
+      api.addList(todo).then((data) => {        
         this.todoList = this.todoList.concat({title: data.title, completed: false})
       })   
     },
     onTodoUpdate(title, id) {
-      updateTodo(title, id).then(data => {
+      api.updateTodo(title, id).then(data => {
         this.todoList.forEach((cur) => {
           if (cur.id === id) {
             cur.title = title
@@ -116,7 +71,7 @@ export default {
       })
     },
     onCompleteTodo(id, completed) {
-      completeTodo(id, completed).then(data => {
+      api.completeTodo(id, completed).then(data => {
         this.todoList.forEach((cur) => {
           if (cur.id === id) {
             cur.completed = !cur.completed
@@ -125,7 +80,7 @@ export default {
       })
     },
     onRemoveTodo(id) {
-      removeTodo(id).then((data) => {
+      api.removeTodo(id).then((data) => {
         this.todoList = this.todoList.filter(todo => todo.id !== id)        
       })
     },
