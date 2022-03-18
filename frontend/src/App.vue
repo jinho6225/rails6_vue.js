@@ -14,7 +14,6 @@
           </div>
           <div class="mt-4 mb-4">
             <List
-              :todoList="todoList"
               @completeTodo="onCompleteTodo"
               @removeTodo="onRemoveTodo"
             />
@@ -29,6 +28,7 @@
 import List from "./components/List.vue";
 import ListAdd from "./components/ListAdd.vue";
 import { api } from "./api"
+import { mapState } from 'vuex'
 
 export default {
   name: "App",
@@ -38,27 +38,20 @@ export default {
   },
   data() {
     return {
-      todoList: [],
     };
+  },
+  computed: {
+    ...mapState(['todoList'])
   },
   created() {
     api.getList().then((data) => {
       this.todoList = data;
     });
   },
-  watch: {
-    todoList: function (newVal, old) {
-      if (newVal.length !== old.length) {
-        api.getList().then((data) => {
-          this.todoList = data;              
-        });
-      }
-    }
-  },
   methods: {
     listAdd(todo) {
-      api.addList(todo).then((data) => {        
-        this.todoList = this.todoList.concat({title: data.title, completed: false})
+      api.addList(todo).then((data) => {
+        this.todoList = [{title: data.title, completed: false}, ...this.todoList]
       })   
     },
     onTodoUpdate(title, id) {

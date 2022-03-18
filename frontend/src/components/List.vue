@@ -2,7 +2,7 @@
     <div>
     <h3>Todos</h3>
         <b-card
-            v-for="todo in todoList"
+            v-for="todo in $store.state.todoList"
             :key="todo.id"
             class="mb-2 d-flex justify-content-between"
         >
@@ -44,7 +44,6 @@
 </template>
 <script>
 export default {
-  props: ["todoList"],
   data() {
     return {};
   },

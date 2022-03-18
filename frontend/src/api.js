@@ -18,7 +18,6 @@ export const api = {
         return data;
     },
     removeTodo: async (id) => {
-        console.log(id, 'id')
         const res = await fetch(`${url}/${id}`, {
             method: "DELETE"
         });
