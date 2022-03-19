@@ -7,16 +7,10 @@
       <b-row class="m-3 p-1">
         <b-col class="p-3">
           <div class="mt-4 mb-4">
-            <ListAdd 
-              @listAdd="listAdd" 
-              @todoUpdate="onTodoUpdate" 
-            />
+            <ListAdd/>
           </div>
           <div class="mt-4 mb-4">
-            <List
-              @completeTodo="onCompleteTodo"
-              @removeTodo="onRemoveTodo"
-            />
+            <List/>
           </div>
         </b-col>
       </b-row>
@@ -27,8 +21,7 @@
 <script>
 import List from "./components/List.vue";
 import ListAdd from "./components/ListAdd.vue";
-import { api } from "./api"
-import { mapState } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: "App",
@@ -44,39 +37,10 @@ export default {
     ...mapState(['todoList'])
   },
   created() {
-    api.getList().then((data) => {
-      this.todoList = data;
-    });
+    this.getList()
   },
   methods: {
-    listAdd(todo) {
-      api.addList(todo).then((data) => {
-        this.todoList = [{title: data.title, completed: false}, ...this.todoList]
-      })   
-    },
-    onTodoUpdate(title, id) {
-      api.updateTodo(title, id).then(data => {
-        this.todoList.forEach((cur) => {
-          if (cur.id === id) {
-            cur.title = title
-          }
-        })
-      })
-    },
-    onCompleteTodo(id, completed) {
-      api.completeTodo(id, completed).then(data => {
-        this.todoList.forEach((cur) => {
-          if (cur.id === id) {
-            cur.completed = !cur.completed
-          }
-        })
-      })
-    },
-    onRemoveTodo(id) {
-      api.removeTodo(id).then((data) => {
-        this.todoList = this.todoList.filter(todo => todo.id !== id)        
-      })
-    },
+    ...mapActions(['getList']),
   },
 };
 </script>

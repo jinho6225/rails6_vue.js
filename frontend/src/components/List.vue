@@ -2,7 +2,7 @@
     <div>
     <h3>Todos</h3>
         <b-card
-            v-for="todo in $store.state.todoList"
+            v-for="todo in todoList"
             :key="todo.id"
             class="mb-2 d-flex justify-content-between"
         >
@@ -25,7 +25,7 @@
                     <i
                         class="far fa-check-circle"
                         aria-hidden="true"
-                        @click="completeTodo(todo.id, todo.completed)"
+                        @click="completeTodo({ id: todo.id, completed: todo.completed })"
                     >
                     </i>
                     </b-button>
@@ -33,7 +33,7 @@
                     <i
                         class="far fa-trash-alt"
                         aria-hidden="true"
-                        @click="removeTodo(todo.id)"
+                        @click="deleteTodo(todo.id)"
                     >
                     </i>
                     </b-button>
@@ -43,17 +43,14 @@
     </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
-  data() {
-    return {};
+  computed: {
+    ...mapState(['todoList'])
   },
   methods: {
-    completeTodo(id, completed) {
-      this.$emit("completeTodo", id, completed);
-    },
-    removeTodo(id) {
-      this.$emit("removeTodo", id);
-    },
+    ...mapActions(['deleteTodo', 'completeTodo']),
     editTodo(todo) {
       this.emitter.emit("editTodo", todo);
     },
