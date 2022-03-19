@@ -43,17 +43,15 @@
     </div>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
   computed: {
     ...mapState(['todoList'])
   },
   methods: {
+    ...mapMutations(['editTodo']),
     ...mapActions(['deleteTodo', 'completeTodo']),
-    editTodo(todo) {
-      this.emitter.emit("editTodo", todo);
-    },
   },
 };
 </script>

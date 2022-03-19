@@ -31,12 +31,12 @@ import { mapState, mapActions } from 'vuex'
         mode: 'add'
       }
     },
-    created() {
-        this.emitter.on("editTodo", (todo) => {
-            this.text = todo.title
-            this.id = todo.id
+    watch: {
+        todo: function(val) {
+            this.text = this.todo.title
+            this.id = this.todo.id
             this.mode = 'edit'
-        })
+        }
     },
     computed: {
         ...mapState(['todo'])
