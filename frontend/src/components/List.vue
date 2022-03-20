@@ -25,7 +25,7 @@
                     <i
                         class="far fa-check-circle"
                         aria-hidden="true"
-                        @click="completeTodo(todo.id, todo.completed)"
+                        @click="completeTodo({ id: todo.id, completed: todo.completed })"
                     >
                     </i>
                     </b-button>
@@ -33,7 +33,7 @@
                     <i
                         class="far fa-trash-alt"
                         aria-hidden="true"
-                        @click="removeTodo(todo.id)"
+                        @click="deleteTodo(todo.id)"
                     >
                     </i>
                     </b-button>
@@ -43,21 +43,15 @@
     </div>
 </template>
 <script>
+import { mapState, mapActions, mapMutations } from 'vuex'
+
 export default {
-  props: ["todoList"],
-  data() {
-    return {};
+  computed: {
+    ...mapState(['todoList'])
   },
   methods: {
-    completeTodo(id, completed) {
-      this.$emit("completeTodo", id, completed);
-    },
-    removeTodo(id) {
-      this.$emit("removeTodo", id);
-    },
-    editTodo(todo) {
-      this.emitter.emit("editTodo", todo);
-    },
+    ...mapMutations(['editTodo']),
+    ...mapActions(['deleteTodo', 'completeTodo']),
   },
 };
 </script>

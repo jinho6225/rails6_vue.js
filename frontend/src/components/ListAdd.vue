@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
   export default {
     data() {
       return {
@@ -29,21 +31,25 @@
         mode: 'add'
       }
     },
-    created() {
-        this.emitter.on("editTodo", (todo) => {
-            this.text = todo.title
-            this.id = todo.id
+    watch: {
+        todo: function(val) {
+            this.text = this.todo.title
+            this.id = this.todo.id
             this.mode = 'edit'
-        })
+        }
+    },
+    computed: {
+        ...mapState(['todo'])
     },
     methods: {
+        ...mapActions(['updateTodo', 'addList']),
         onSubmit(event) {
             if (this.text === null) {
                 alert('please enter todo')
             } 
             else {
                 event.preventDefault();
-                this.$emit("listAdd", this.text)
+                this.addList(this.text)
                 this.text = null
             }
         },
@@ -52,8 +58,8 @@
                 alert('please enter todo')
             } 
             else {
-                event.preventDefault();
-                this.$emit("todoUpdate", this.text, this.id)
+                event.preventDefault();                
+                this.updateTodo({ title: this.text, id: this.id })
                 this.text = null
                 this.mode = 'add'
             }
