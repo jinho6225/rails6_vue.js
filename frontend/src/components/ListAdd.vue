@@ -6,16 +6,18 @@
             type="text" 
             v-model="text"
             placeholder="Enter todo..."
+            :disabled="!isLoggedIn"
             >
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" :disabled="!isLoggedIn">
         </form>
         <form @submit="todoUpdate" v-else>
             <input 
             type="text" 
             v-model="text"
             placeholder="Enter todo..."
+            :disabled="!isLoggedIn"
             >
-            <input type="submit" value="Update">
+            <input type="submit" value="Update" :disabled="!isLoggedIn">
         </form>
     </div>
 </template>
@@ -25,21 +27,14 @@ import { mapState, mapActions } from 'vuex'
 
   export default {
     data() {
-      return {
-        text: null,
-        id: null,
-        mode: 'add'
-      }
-    },
-    watch: {
-        todo: function(val) {
-            this.text = this.todo.title
-            this.id = this.todo.id
-            this.mode = 'edit'
+        return {
+            text: null,
+            id: null,
+            mode: 'add'
         }
     },
     computed: {
-        ...mapState(['todo'])
+        ...mapState(['todo', 'isLoggedIn'])
     },
     methods: {
         ...mapActions(['updateTodo', 'addList']),
@@ -64,6 +59,13 @@ import { mapState, mapActions } from 'vuex'
                 this.mode = 'add'
             }
         }
+    },
+    watch: {
+        todo: function(newVal, old) {
+            this.text = newVal.title
+            this.id = newVal.id
+            this.mode = 'edit'
+        }        
     }
   }
 </script>

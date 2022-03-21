@@ -1,7 +1,13 @@
 Rails.application.routes.draw do
+  # get '/' => 'posts#index'
+  devise_for :users
+  
   namespace :api do
     namespace :v1 do
-      resources :todos  
+      resources :todos
+      resources :users, only: [:create]
+      resource :sessions, only: [:create, :destroy]
+      resource :user, only: :show
     end
   end
 

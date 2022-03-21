@@ -1,9 +1,10 @@
 class Api::V1::TodosController < ApplicationController
+  # before_action :authenticate_user!, only: [:index, :show, :create, :update, :destroy]
   before_action :set_todo, only: [:show, :update, :destroy]
 
   # GET /todos
   def index
-    @todos = Todo.all
+    @todos = Todo.all.order(:id)
 
     render json: @todos.reverse
   end
