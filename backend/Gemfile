@@ -10,6 +10,7 @@ gem 'rails', '~> 6.0.4', '>= 6.0.4.7'
 
 # Use Postgres as the database for Active Record
 gem 'pg'
+gem 'devise'
 
 # Use Puma as the app server
 gem 'puma', '~> 4.1'

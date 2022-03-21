@@ -1,7 +1,7 @@
 <template>
-    <div>
-    <h3>Todos</h3>
-        <b-card
+    <div v-if="isLoggedIn">
+        <h3>Todos</h3>    
+        <b-card            
             v-for="todo in todoList"
             :key="todo.id"
             class="mb-2 d-flex justify-content-between"
@@ -16,7 +16,7 @@
                     <i
                         class="far fa-edit"
                         aria-hidden="true"
-                        @click="editTodo(todo)"
+                        @click="todo.completed === false ? editTodo(todo) : null"
                     >
                     </i>
                     </b-button>
@@ -41,18 +41,23 @@
             </div>
         </b-card>
     </div>
+    <div v-else></div>
 </template>
 <script>
-import { mapState, mapActions, mapMutations } from 'vuex'
+import { mapState , mapActions, mapMutations } from 'vuex'
 
 export default {
-  computed: {
-    ...mapState(['todoList'])
-  },
-  methods: {
-    ...mapMutations(['editTodo']),
-    ...mapActions(['deleteTodo', 'completeTodo']),
-  },
+    data() {
+        return {
+        }
+    },
+    computed: {
+        ...mapState(['todoList', 'isLoggedIn']),
+    },
+    methods: {
+        ...mapMutations(['editTodo']),
+        ...mapActions(['deleteTodo', 'completeTodo']),
+    }
 };
 </script>
 <style scoped>
