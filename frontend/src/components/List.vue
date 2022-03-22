@@ -2,7 +2,7 @@
     <div v-if="isLoggedIn">
         <h3>Todos</h3>    
         <b-card            
-            v-for="todo in todoList"
+            v-for="todo in visibleTodos"
             :key="todo.id"
             class="mb-2 d-flex justify-content-between"
         >
@@ -52,7 +52,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['todoList', 'isLoggedIn']),
+        ...mapState(['todoList', 'isLoggedIn', 'visibleTodos']),
     },
     methods: {
         ...mapMutations(['editTodo']),
