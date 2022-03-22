@@ -6,12 +6,26 @@ export const store = createStore({
         return {
             todoList: [],
             todo: null,            
-            isLoggedIn: false
+            isLoggedIn: false,
+            currentPage: 0,
+            pageSize: 5,
+            visibleTodos: [],
+            totalPages: 0
         }
     },
     getters: {//computed        
     },
     mutations: {
+        updatePage: function (state, pageNumber) {
+            state.currentPage = pageNumber
+            this._mutations.updateVisibleTodos[0]()
+        },
+        updateVisibleTodos: function(state) {
+            state.visibleTodos = state.todoList.slice(state.currentPage * state.pageSize, (state.currentPage * state.pageSize) + state.pageSize)
+            if (state.visibleTodos.length === 0 && state.currentPage > 0) {            
+                this._mutations.updatePage[0](state.currentPage - 1)                
+            }        
+        },
         logoutUser: state => {
             state.isLoggedIn = false
             window.localStorage.removeItem('token')
@@ -28,7 +42,11 @@ export const store = createStore({
             state.todo = todo
         },
         setTodos: (state, todos) => (state.todoList = todos),
-        addTodo: (state, todo) => (state.todoList = [...state.todoList, todo]),
+        setTotalPages: (state) => state.totalPages = Math.ceil(state.todoList.length / state.pageSize),
+        addTodo: function (state, todo) {
+            (state.todoList = [todo, ...state.todoList])
+            this._mutations.updateVisibleTodos[0]()
+        },
         setUpdateTodo: (state, { title, id }) => {
             state.todoList.forEach((todo) => {
                 if (todo.id === id) {
@@ -36,7 +54,10 @@ export const store = createStore({
                 }
             })
         },
-        removeTodo: (state, id) => (state.todoList = state.todoList.filter(todo => todo.id !== id)),
+        removeTodo: function(state, id){
+            (state.todoList = state.todoList.filter(todo => todo.id !== id))
+            this._mutations.updateVisibleTodos[0]()
+        },
         setCompleteTodo: (state, {id, completed}) => {
             state.todoList.forEach(todo => {
                 if (todo.id === id) {
@@ -54,10 +75,13 @@ export const store = createStore({
         getList: async ({ commit }) => {               
             const data = await(await fetch(`${url}/todos`)).json();            
             commit('setTodos', data)
+            commit('updateVisibleTodos')
+            commit('setTotalPages', data)
         },
         deleteTodo: async ({ commit }, id) => {
             await fetch(`${url}/todos/${id}`, { method: "DELETE" });
             commit('removeTodo', id)
+            commit('setTotalPages')
         },
         completeTodo: async ({ commit }, { id, completed }) => {
             const headers = headersFN({ todo: {completed: !completed}}, 'PUT')
@@ -68,6 +92,7 @@ export const store = createStore({
             const headers = headersFN({ todo: {title, completed: false}}, 'POST')
             const data = await (await fetch(`${url}/todos`, headers)).json();
             commit('addTodo', data)
+            commit('setTotalPages')
         }, 
         updateTodo: async ( { commit }, { title, id }) => {
             const headers = headersFN({ todo: { title }}, 'PUT')

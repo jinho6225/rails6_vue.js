@@ -16,6 +16,7 @@
             <List/>
           </div>
         </b-col>
+        <Pagination/>
       </b-row>
     </b-container>
   </div>
@@ -24,6 +25,8 @@
 <script>
 import List from "../components/List.vue";
 import ListAdd from "../components/ListAdd.vue";
+import Pagination from "../components/Pagination.vue";
+
 import { mapState, mapActions, mapMutations } from 'vuex'
 
 export default {
@@ -31,6 +34,7 @@ export default {
   components: {
     List,
     ListAdd,
+    Pagination
   },
   data() {
     return {
@@ -45,7 +49,7 @@ export default {
       this.loginUser()
       this.setTodos()
     }
-  },
+  },  
   methods: {
     ...mapActions(['getList']),
     ...mapMutations(['loginUser', 'logoutUser', 'setTodos']),
