@@ -16,7 +16,7 @@
                         <div class="mt-3 mb-1 d-flex justify-content-center">
                             <label>If you don't have account, please <button id="signupbtn"><router-link id="linkToSignUp" :to="{name: 'signup'}">Sign Up</router-link></button></label>                            
                         </div>
-                        <input class="w-100 btn btn-lg btn-primary mt-3" type="submit" value="Login"/>
+                        <input class="w-100 btn btn-lg btn-primary mt-3" type="submit" value="LogIn"/>
                     </form>
                 </div>
         </div>  
@@ -26,7 +26,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-
     export default {
         data() {
             return {
@@ -53,7 +52,11 @@ import { mapActions } from 'vuex'
                 this.$router.push('/home'); 
             }
         },
-        created() {
+        created() {            
+            if (this.$route.params.email && this.$route.params.password) {                
+                this.email = this.$route.params.email
+                this.password = this.$route.params.password
+            }
             if (window.localStorage.getItem('token')) this.goToHome()
         },
     }
