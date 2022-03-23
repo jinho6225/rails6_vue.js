@@ -71,7 +71,12 @@ export const store = createStore({
             const headers = headersFN(loginInfo, 'POST')
             const data = await (await fetch(`${url}/sessions`, headers)).json();
             commit('loginUser', data)
-        }, 
+        },
+        postUserInfo: async ({ commit }, userInfo) => {
+            const headers = headersFN(userInfo, 'POST')
+            const data = await (await fetch(`${url}/users`, headers)).json();            
+            return data
+        },
         getList: async ({ commit }) => {               
             const data = await(await fetch(`${url}/todos`)).json();            
             commit('setTodos', data)

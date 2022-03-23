@@ -3,45 +3,24 @@
     <main class="form-signin">
       <div class="card">
         <div class="card-body">
-          <form>
+          <form @submit="onSubmit">
             <h2 class="h3 mb-3 fw-normal text-center">Please Sign Up</h2>
-
             <div class="form-group">
               <label>Email address</label>
-              <input
-                type="email"
-                class="form-control form-control-lg"
-                placeholder="Email address"
-              />
+              <input type="email" class="form-control form-control-lg" placeholder="Email address" v-model="email"/>
             </div>
-
             <div class="form-group">
               <label>Password</label>
-              <input
-                type="password"
-                class="form-control form-control-lg"
-                placeholder="Password"
-              />
+              <input type="password" class="form-control form-control-lg" placeholder="Password" v-model="password"/>
             </div>
-
             <div class="form-group">
               <label>Confirmation Password</label>
-              <input
-                type="password"
-                class="form-control form-control-lg"
-                placeholder="Password"
-              />
+              <input type="password" class="form-control form-control-lg" placeholder="Password" v-model="confirmation_password"/>
             </div>
-
             <div class="mt-3 mb-1 d-flex justify-content-center">
                 <label>If you have account, please <button id="loginbtn"><router-link id="linkToLogIn" :to="{name: 'login'}">Log In</router-link></button></label>                            
             </div>
-
-            <input
-              class="w-100 btn btn-lg btn-primary mt-3"
-              type="submit"
-              value="Sign Up"
-            />
+            <input class="w-100 btn btn-lg btn-primary mt-3" type="submit" value="SignUp"/>
           </form>
         </div>
       </div>
@@ -50,11 +29,49 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   data() {
-    return {};
+    return {
+        email: null,
+        password: null,
+        confirmation_password: null
+    };
   },
-  methods: {},
+  methods: {
+    ...mapActions(['postUserInfo']),
+    onSubmit(event) {
+        if (this.text === "" || this.password === "" || this.confirmation_password === "") {
+            alert('please enter login info')
+        } else if (this.text === "" || this.password === "" || this.confirmation_password === "") {
+            alert('please enter login info')
+        } else if (this.password !== "" && this.confirmation_password !== "" && this.password !== this.confirmation_password) {
+            alert('please match your password and confirmation_password')
+        } else {
+            event.preventDefault();
+            const user = { "user": { "email": this.email, "password": this.password, "confirmation_password": this.confirmation_password }}
+            this.postUserInfo(user).then(data => {
+                if (data.email[0] === 'has already been taken') {
+                  alert('has already been taken')
+                  this.email = null
+                  this.password = null
+                  this.confirmation_password = null
+                } else {
+                  this.goToLogin()
+                }
+            })
+        }
+    },            
+    goToLogin(){            
+        this.$router.push({
+          name: 'login', 
+          params: {
+            email: this.email,
+            password: this.password
+          }
+        }); 
+    }
+  },
 };
 </script>
 
