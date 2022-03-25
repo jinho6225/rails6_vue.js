@@ -36,9 +36,9 @@ import { mapActions } from 'vuex'
         methods: {
             ...mapActions(['getUserInfo']),
             onSubmit(event) {
-                if (this.text === "" || this.password === "") {
+                if (this.email === "" || this.password === "") {
                     alert('please enter login info')
-                } else if (this.text === null || this.password === null) {
+                } else if (this.email === null || this.password === null) {
                     alert('please enter login info')
                 } else {
                     event.preventDefault();

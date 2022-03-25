@@ -1,4 +1,5 @@
 class Api::V1::TodosController < ApplicationController
+  skip_before_action :require_login, only: [:index]
   # before_action :authenticate_user!, only: [:index, :show, :create, :update, :destroy]
   before_action :set_todo, only: [:show, :update, :destroy]
 

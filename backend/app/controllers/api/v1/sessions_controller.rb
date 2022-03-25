@@ -10,9 +10,7 @@ class Api::V1::SessionsController < ApplicationController
     end
 
     def destroy
-        user = User.where(email: params[:email]).first
-        print(user.api_token, 'apitoken')
-        print(user.valid?, 'valid')    
+        user = User.where(email: params[:email]).first         
         user.api_token = nil
         user.destroy
         render json: user.api_token
