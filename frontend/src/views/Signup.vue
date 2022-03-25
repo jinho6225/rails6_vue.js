@@ -15,7 +15,7 @@
             </div>
             <div class="form-group">
               <label>Confirmation Password</label>
-              <input type="password" class="form-control form-control-lg" placeholder="Password" v-model="confirmation_password"/>
+              <input type="password" class="form-control form-control-lg" placeholder="Password" v-model="password_confirmation"/>
             </div>
             <div class="mt-3 mb-1 d-flex justify-content-center">
                 <label>If you have account, please <button id="loginbtn"><router-link id="linkToLogIn" :to="{name: 'login'}">Log In</router-link></button></label>                            
@@ -35,27 +35,27 @@ export default {
     return {
         email: null,
         password: null,
-        confirmation_password: null
+        password_confirmation: null
     };
   },
   methods: {
     ...mapActions(['postUserInfo']),
     onSubmit(event) {
-        if (this.text === "" || this.password === "" || this.confirmation_password === "") {
+        if (this.email === "" || this.password === "" || this.password_confirmation === "") {          
             alert('please enter login info')
-        } else if (this.text === "" || this.password === "" || this.confirmation_password === "") {
+        } else if (this.email === null || this.password === null || this.password_confirmation === null) {
             alert('please enter login info')
-        } else if (this.password !== "" && this.confirmation_password !== "" && this.password !== this.confirmation_password) {
-            alert('please match your password and confirmation_password')
+        } else if (this.password !== null && this.password_confirmation !== null && this.password !== this.password_confirmation) {
+            alert('please match your password and password_confirmation')
         } else {
             event.preventDefault();
-            const user = { "user": { "email": this.email, "password": this.password, "confirmation_password": this.confirmation_password }}
+            const user = { "user": { "email": this.email, "password": this.password, "password_confirmation": this.password_confirmation }}
             this.postUserInfo(user).then(data => {
                 if (data.email[0] === 'has already been taken') {
                   alert('has already been taken')
                   this.email = null
                   this.password = null
-                  this.confirmation_password = null
+                  this.password_confirmation = null
                 } else {
                   this.goToLogin()
                 }
