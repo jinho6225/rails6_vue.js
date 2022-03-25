@@ -1,24 +1,27 @@
 <template>
-  <div id="box" class="mt-5">
-    <div v-if="isLoggedIn" id="signoutbtn" class="container">
+  <div id="box" class="mt-5">    
+    <div v-if="isLoggedIn" class="btn-container">
+      <button @click="pdf">Generate PDF</button> 
       <button @click="signOut">Sign Out</button> 
     </div>
     <div id="header">
       <h1 @click="goToLogin">Todo List</h1> 
     </div>
-    <b-container>
-      <b-row class="m-3 p-1">
-        <b-col class="p-3">
-          <div class="mt-4 mb-4">
-            <ListAdd/>
-          </div>
-          <div class="mt-4 mb-4">
-            <List/>
-          </div>
-        </b-col>
-        <Pagination/>
-      </b-row>
-    </b-container>
+    <div v-if="isLoggedIn" class="container">
+      <b-container>
+        <b-row class="m-3 p-1">
+          <b-col class="p-3">
+            <div class="mt-4 mb-4">
+              <ListAdd/>
+            </div>
+            <div id="todoList" class="mt-4 mb-4">
+              <List/>
+            </div>
+          </b-col>
+          <Pagination/>
+        </b-row>
+      </b-container>
+    </div>
   </div>
 </template>
 
@@ -26,6 +29,9 @@
 import List from "../components/List.vue";
 import ListAdd from "../components/ListAdd.vue";
 import Pagination from "../components/Pagination.vue";
+import pdfMake from 'pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+import htmlToPdfmake from 'html-to-pdfmake';
 
 import { mapState, mapActions, mapMutations } from 'vuex'
 
@@ -59,6 +65,26 @@ export default {
     signOut() {
       this.logoutUser()
       this.goToLogin()
+    },
+    pdf() {
+      // const pdfTarget = document.getElementById('box'); //page     
+      let contents = `<h2>Todo List</h2>
+                        <table>
+                        <tr>
+                          <th>title</th>
+                          <th>completed</th>                          
+                        </tr>`
+      for (let i = 0; i < this.todoList.length; i++) {
+        let todo = this.todoList[i]
+        contents += `<tr><th>${todo.title}</th><th>${todo.completed}</th></tr>`
+      }
+      contents += `</table>`
+      // const html = htmlToPdfmake(pdfTarget.innerHTML); //page
+      const html = htmlToPdfmake(contents);
+      const documentDefinition = { content: html };
+      pdfMake.vfs = pdfFonts.pdfMake.vfs;
+      // pdfMake.createPdf(documentDefinition).open(); //open
+      pdfMake.createPdf(documentDefinition).download();
     }
   }
 };
@@ -73,17 +99,21 @@ export default {
   display: flex;
   justify-content: center;
 }
-#signoutbtn {
+.btn-container {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-around;  
 }
-#signoutbtn button {
+.container {
+  display: flex;
+  justify-content: center;
+}
+.btn-container button {
     background: powderblue;
     border: 0px powderblue solid;
     cursor: pointer;
     padding: 5px;
 }
-#signoutbtn button:hover {
+.btn-container button:hover {
     background: rgb(90, 166, 176);
     color: #fff;
 }
