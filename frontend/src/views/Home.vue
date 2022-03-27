@@ -8,19 +8,19 @@
       <h1 @click="goToLogin">Todo List</h1> 
     </div>
     <div v-if="isLoggedIn" class="container">
-      <b-container>
-        <b-row class="m-3 p-1">
-          <b-col class="p-3">
+      <div class="w-100">
+        <div class="m-3 p-1">
+          <div class="p-3">
             <div class="mt-4 mb-4">
               <ListAdd/>
             </div>
             <div id="todoList" class="mt-4 mb-4">
               <List/>
             </div>
-          </b-col>
+          </div>
           <Pagination/>
-        </b-row>
-      </b-container>
+        </div>
+      </div>
     </div>
   </div>
 </template>

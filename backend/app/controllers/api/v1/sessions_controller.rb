@@ -1,4 +1,6 @@
 class Api::V1::SessionsController < ApplicationController
+    skip_before_action :require_login, only: [:create]
+
     def create
         user = User.where(email: params[:email]).first
 
@@ -15,4 +17,5 @@ class Api::V1::SessionsController < ApplicationController
         user.destroy
         render json: user.api_token
     end
+
 end
