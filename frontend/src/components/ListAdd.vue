@@ -6,18 +6,28 @@
             type="text" 
             v-model="text"
             placeholder="Enter todo..."
+            data-testid="todo-input"
             :disabled="!isLoggedIn"
             >
-            <input type="submit" value="Submit" :disabled="!isLoggedIn">
+            <input 
+            type="submit" 
+            data-testid="todo-submit"
+            value="Submit" 
+            :disabled="!isLoggedIn">
         </form>
         <form @submit="todoUpdate" v-else>
             <input 
             type="text" 
             v-model="text"
+            data-testid="todo-input"
             placeholder="Enter todo..."
             :disabled="!isLoggedIn"
             >
-            <input type="submit" value="Update" :disabled="!isLoggedIn">
+            <input 
+            type="submit" 
+            data-testid="todo-submit"
+            value="Update" 
+            :disabled="!isLoggedIn">
         </form>
     </div>
 </template>
