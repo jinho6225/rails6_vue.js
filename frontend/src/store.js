@@ -77,6 +77,16 @@ export const store = createStore({
             const data = await (await fetch(`${url}/users`, headers)).json();            
             return data
         },
+        sendResetPasswordLink: async ({ commit }, userInfo) => {
+            const headers = headersFN(userInfo, 'POST')
+            const data = await (await fetch(`${url}/forgot_password`, headers)).json();
+            return data
+        },
+        ResetPassword: async ({ commit }, userInfo) => {
+            const headers = headersFN(userInfo, 'POST')
+            const data = await (await fetch(`${url}/reset_password`, headers)).json();
+            return data
+        },
         getList: async ({ commit }) => {               
             const data = await(await fetch(`${url}/todos`)).json();            
             commit('setTodos', data)

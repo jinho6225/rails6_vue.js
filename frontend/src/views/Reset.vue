@@ -1,10 +1,14 @@
 <template>
-  <div id="signup-container">
+  <div id="reset-container">
     <main class="form-signin">
       <div class="card">
         <div class="card-body">
           <form @submit="onSubmit">
-            <h2 class="h3 mb-3 fw-normal text-center">Please Sign Up</h2>
+            <h2 class="h3 mb-3 fw-normal text-center">Please Reset your Password</h2>
+            <div class="form-group">
+              <label>Token</label>
+              <input type="token" class="form-control form-control-lg" placeholder="Password Reset Token" v-model="token"/>
+            </div>
             <div class="form-group">
               <label>Email address</label>
               <input type="email" class="form-control form-control-lg" placeholder="Email address" v-model="email"/>
@@ -17,10 +21,7 @@
               <label>Confirmation Password</label>
               <input type="password" class="form-control form-control-lg" placeholder="Password" v-model="password_confirmation"/>
             </div>
-            <div class="mt-3 mb-1 d-flex justify-content-center">
-                <label>If you have account, please <button id="loginbtn"><router-link id="linkToLogIn" :to="{name: 'login'}">Log In</router-link></button></label>                            
-            </div>
-            <input class="w-100 btn btn-lg btn-primary mt-3" type="submit" value="SignUp"/>
+            <input class="w-100 btn btn-lg btn-primary mt-3" type="submit" value="Reset Password"/>
           </form>
         </div>
       </div>
@@ -33,52 +34,52 @@ import { mapActions } from 'vuex'
 export default {
   data() {
     return {
+        token: null,
         email: null,
         password: null,
         password_confirmation: null
     };
   },
   methods: {
-    ...mapActions(['postUserInfo']),
+    ...mapActions(['ResetPassword']),
     onSubmit(event) {
-        if (this.email === "" || this.password === "" || this.password_confirmation === "") {          
-            alert('please enter login info')
+        if (this.token === '') {
+            alert('please check your email. we sent password reset token')
         } else if (this.password.length < 6) {
             alert('Password is too short (minimum is 6 characters)')
-        } else if (this.email === null || this.password === null || this.password_confirmation === null) {
-            alert('please enter login info')
         } else if (this.password !== null && this.password_confirmation !== null && this.password !== this.password_confirmation) {
             alert('please match your password and password_confirmation')
+        } else if (this.email === "" || this.password === "" || this.password_confirmation === "") {          
+            alert('please enter reset password info')
+        } else if (this.email === null || this.password === null || this.password_confirmation === null) {
+            alert('please enter reset password info')
         } else {
             event.preventDefault();
-            const user = { "user": { "email": this.email, "password": this.password, "password_confirmation": this.password_confirmation }}
-            this.postUserInfo(user).then(data => {
-                if (data.email[0] === 'has already been taken') {
-                  alert('has already been taken')
-                  this.email = null
-                  this.password = null
-                  this.password_confirmation = null
-                } else {
-                  this.goToLogin()
-                }
+            const user = { "token": this.token, "email": this.email, "password": this.password }
+            this.ResetPassword(user).then(data => {
+                this.goToLogin()
+                this.token = null
+                this.email = null
+                this.password = null
+                this.password_confirmation = null
             })
         }
     },            
     goToLogin(){            
         this.$router.push({
-          name: 'login', 
-          params: {
-            email: this.email,
-            password: this.password
-          }
-        }); 
+            name: 'login', 
+            params: {
+                email: this.email,
+                password: this.password
+            }
+        });
     }
   },
 };
 </script>
 
 <style scoped>
-#signup-container {
+#reset-container {
     width: 100%;
     height: 100%;
     display: flex;
