@@ -16,6 +16,9 @@
                         <div class="mt-3 mb-1 d-flex justify-content-center">
                             <label>If you don't have account, please <button id="signupbtn"><router-link id="linkToSignUp" :to="{name: 'signup'}">Sign Up</router-link></button></label>                            
                         </div>
+                        <div class="mt-3 mb-1 d-flex justify-content-center">
+                            <label>If you forgot your pwd, please click <button id="forgotbtn"><router-link id="linkToForgot" :to="{name: 'forgot'}">Forgot PWD</router-link></button></label>                            
+                        </div>
                         <input class="w-100 btn btn-lg btn-primary mt-3" type="submit" value="LogIn"/>
                     </form>
                 </div>
@@ -52,7 +55,7 @@ import { mapActions } from 'vuex'
                 this.$router.push('/home'); 
             }
         },
-        created() {            
+        created() {
             if (this.$route.params.email && this.$route.params.password) {                
                 this.email = this.$route.params.email
                 this.password = this.$route.params.password
@@ -86,6 +89,17 @@ import { mapActions } from 'vuex'
         outline: 0;
     }
     #linkToSignUp {
+        text-decoration: none;
+        color: black
+    }
+    #forgotbtn {
+        background: powderblue;
+        border: 1px solid powderblue;
+        border-radius: 8px;
+        padding: 5px;
+        outline: 0;
+    }
+    #linkToForgot {
         text-decoration: none;
         color: black
     }
