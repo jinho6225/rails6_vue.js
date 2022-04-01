@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  rails_db:
+    image: postgres:12.5-alpine
+    container_name: rails_db
+    restart: "no"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432 # use port that you want to in your local instead of 5491
+    environment:
+      - POSTGRES_DB=todo_rails_vuejs
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+
+  rails_api:    
+    build: .
+    image: rails-docker
+    container_name: rails_api
+    environment:
+        - DATABASE_HOST=rails_db
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=password
+    restart: "no"
+    ports:
+      - 3000:3000 # use port that you want to in your local instead of 3091    
+    env_file:
+      - .env    
+    depends_on:
+      - rails_db
+
+volumes:
+  db_data:
+  
