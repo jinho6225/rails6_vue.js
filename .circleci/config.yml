@@ -13,8 +13,8 @@ jobs:
           name: Run Tests
           command: cd frontend; npm run test:unit
       - run: 
-          name: Build and Run
-          command: cd frontend; npm run serve
+          name: Build
+          command: cd frontend; npm run build
   
   build_test_rails:
     docker:
@@ -43,11 +43,11 @@ jobs:
 workflows:
   test_and_build:
     jobs:
-      - test_and_build_vue:
+      - test_and_build_vue
       - build_test_rails:
-          requires:
-            - test_and_build_vue
-          filters:
-            branches:
-              only:
-                - master
+        requires:
+          - test_and_build_vue
+        filters:
+          branches:
+            only:
+              - master
