@@ -15,20 +15,16 @@ jobs:
       - run: 
           name: Build and Run
           command: cd frontend; npm run serve
-
   build_test_rails:
     parallelism: 3
-
     docker:
       - image: cimg/ruby:2.7.5
       - image: cimg/postgres:13.0
-
     environment:
       PGHOST: localhost
       PGUSER: postgres
       PGPASSWORD: password
       RAILS_ENV: dev
-
     steps:
       - checkout
       - run: 
