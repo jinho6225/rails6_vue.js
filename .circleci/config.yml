@@ -7,14 +7,11 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: where i am
-          command: ls -la
+          name: Install dependencies
+          command: cd frontend; npm install
       - run: 
-          name: move
-          command: cd frontend/
-      - run: 
-          name: where i am 2
-          command: ls -la   
+          name: Run Tests
+          command: cd frontend; npm run test:unit   
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
