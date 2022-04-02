@@ -22,11 +22,6 @@ jobs:
     docker:
       - image: cimg/ruby:2.7.5
       - image: cimg/postgres:13.0
-        environment: # add POSTGRES environment variables.
-        DATABASE_HOST: rails_db
-        POSTGRES_USER: postgres
-        POSTGRES_DB: todo_rails_vuejs
-        POSTGRES_PASSWORD: password
 
     environment:
       PGHOST: localhost
