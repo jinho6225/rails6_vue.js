@@ -1,5 +1,5 @@
 import { mount } from '@vue/test-utils'
-import SignUp from '../../../src/views/SignUp.vue'
+import SignUp from '../../../src/views/Signup.vue'
 import { store } from '@/store'
 import { router } from '@/router'
 
