@@ -43,7 +43,7 @@ jobs:
 workflows:
   test_and_build:
     jobs:
-      - test_and_build_vue:
+      - test_and_build_vue
       - build_test_rails:
           requires:
             - test_and_build_vue
