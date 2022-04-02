@@ -12,14 +12,21 @@ jobs:
       - run: 
           name: Run Tests
           command: cd frontend; npm run test:unit
-  build:
+      - run: 
+          name: where i am
+          command: ls -al
+
+  build_test:
     docker:
-      - image: cimg/ruby:2.7.5
+      - image: cimg/ruby:2.7.5        
     steps:
       - checkout
       - run: 
           name: Check versions
           command: ruby --version
+      - run: 
+          name: where i am
+          command: ls -al
       
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -27,4 +34,10 @@ workflows:
   test_and_build:
     jobs:
       - test
-      - build
+      - build_test:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
