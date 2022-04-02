@@ -4,6 +4,9 @@ jobs:
   test_and_build_vue:
     docker:
       - image: cimg/node:14.13.0
+        auth:
+            username: $DOCKERHUB_USER
+            password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
       - run: 
@@ -19,7 +22,13 @@ jobs:
   build_test_rails:
     docker:
       - image: cimg/ruby:2.7.5
+        auth:
+            username: $DOCKERHUB_USER
+            password: $DOCKERHUB_PASSWORD
       - image: cimg/postgres:13.0
+        auth:
+            username: $DOCKERHUB_USER
+            password: $DOCKERHUB_PASSWORD
     environment:
       PGHOST: localhost
       PGUSER: postgres
