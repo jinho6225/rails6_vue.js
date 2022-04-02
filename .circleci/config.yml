@@ -21,14 +21,18 @@ jobs:
   
   build_test_rails:
     docker:
-      - image: cimg/ruby:2.7.5
+      - image: cimg/ruby:2.7-node
         auth:
             username: $DOCKERHUB_USER
             password: $DOCKERHUB_PASSWORD
-      - image: cimg/postgres:13.0
+      - image: cimg/postgres:14.0
         auth:
             username: $DOCKERHUB_USER
             password: $DOCKERHUB_PASSWORD
+        environment: # add POSTGRES environment variables.
+            POSTGRES_USER: postgres
+            POSTGRES_DB: todo_rails_vuejs
+            POSTGRES_PASSWORD: ""
     environment:
       PGHOST: localhost
       PGUSER: postgres
@@ -36,15 +40,15 @@ jobs:
       RAILS_ENV: dev
     steps:
       - checkout
-      - run: 
-          name: Install dependencies 1
-          command: apt-get update -qq && apt-get install -y postgresql-client
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Database migrations
+          command: bundle exec rails db:migrate --trace
       - run: 
           name: Install dependencies 2
-          command: cd backend; gem install bundler --version 2.2.3; bundle install;
-      - run: 
-          name: Run migrations
-          command: rails db:migrate
+          command: cd backend; gem install bundler --version 2.2.3; bundle install;      
       - run: 
           name: Starting app server
           command: rails s -p 3000 -b '0.0.0.0'
