@@ -48,10 +48,10 @@ jobs:
           command: cd backend; gem install bundler --version 2.2.3; bundle install;      
       - run:
           name: Database migrations
-          command: bundle exec rails db:migrate --trace
+          command: cd backend; bundle exec rails db:migrate --trace
       - run: 
           name: Starting app server
-          command: rails s -p 3000 -b '0.0.0.0'
+          command: cd backend; rails s -p 3000 -b '0.0.0.0'
       
 workflows:
   test_and_build:
