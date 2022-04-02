@@ -52,10 +52,10 @@ jobs:
 workflows:
   test_and_build:
     jobs:
-      - test
-      - build_test:
+      - test_and_build_vue:
+      - build_test_rails:
           requires:
-            - test
+            - test_and_build_vue
           filters:
             branches:
               only:
