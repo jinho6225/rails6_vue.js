@@ -1,9 +1,8 @@
 import { mount } from '@vue/test-utils'
 import { store } from '@/store'
 import { router } from '@/router'
-import Home from '@/views/Home.vue'
-import List from "@/components/List.vue";
-import ListAdd from "@/components/ListAdd.vue";
+import Home from '../../../src/views/Home.vue'
+
 
 describe('Home', () => {
     it('render sign up page', () => {

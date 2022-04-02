@@ -1,7 +1,5 @@
 import { mount } from '@vue/test-utils'
-import Vue, { extend, nextTick } from 'vue'
-import Home from '@/views/Home.vue'
-import SignUp from '@/views/SignUp.vue'
+import SignUp from '../../../src/views/SignUp.vue'
 import { store } from '@/store'
 import { router } from '@/router'
 

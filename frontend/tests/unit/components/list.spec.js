@@ -1,5 +1,5 @@
 import { mount, shallowMount } from '@vue/test-utils'
-import List from '@/components/List'
+import List from '../../../src/components/List'
 import { store } from '@/store'
 import { router } from '@/router'
 
