@@ -6,9 +6,6 @@ jobs:
       - image: cimg/node:14.13.0
     steps:
       - checkout
-      - run:
-          name: Move into frontend
-          command: cd frontend
       - run: 
           name: Install dependencies
           command: npm install
