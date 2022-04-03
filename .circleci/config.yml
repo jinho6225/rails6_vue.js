@@ -20,6 +20,8 @@ jobs:
           command: cd frontend; npm run build
   
   build_test_rails:
+  
+    parallelism: 3
     docker:
       - image: cimg/ruby:2.7-node
         auth:
