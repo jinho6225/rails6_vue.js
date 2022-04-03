@@ -47,9 +47,6 @@ jobs:
           name: Install dependencies 2
           command: cd backend; gem install bundler --version 2.2.3; bundle install;      
       - run:
-          name: Rails ENV
-          command: cd backend; bundle exec rails c RAILS_ENV=development
-      - run:
           name: Database migrations
           command: cd backend; bundle exec rails db:migrate
       - run: 
