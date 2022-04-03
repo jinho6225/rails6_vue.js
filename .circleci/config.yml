@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  ruby: circleci/ruby@1.6.0
+
 jobs:
   test_and_build_vue:
     docker:
@@ -20,7 +23,7 @@ jobs:
           command: cd frontend; npm run build
   
   build_test_rails:
-  
+
     parallelism: 3
     docker:
       - image: cimg/ruby:2.7-node
