@@ -32,12 +32,12 @@ jobs:
         environment: # add POSTGRES environment variables.
             POSTGRES_USER: postgres
             POSTGRES_DB: todo_rails_vuejs
-            POSTGRES_PASSWORD: ""
+            POSTGRES_PASSWORD: password
     environment:
       PGHOST: localhost
       PGUSER: postgres
       PGPASSWORD: password
-      RAILS_ENV: dev
+      RAILS_ENV: development
     steps:
       - checkout
       - run:
@@ -47,8 +47,11 @@ jobs:
           name: Install dependencies 2
           command: cd backend; gem install bundler --version 2.2.3; bundle install;      
       - run:
+          name: Rails ENV
+          command: cd backend; bundle exec rails c RAILS_ENV=development
+      - run:
           name: Database migrations
-          command: cd backend; bundle exec rake db:migrate
+          command: cd backend; bundle exec rails db:migrate
       - run: 
           name: Starting app server
           command: cd backend; rails s -p 3000 -b '0.0.0.0'
