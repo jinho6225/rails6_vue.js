@@ -64,18 +64,14 @@ jobs:
             password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
-      - run: 
-          name: Start build and push image to AWS-ECR
-          command: pwd; ls;
-  
       - aws-ecr/build-and-push-image:          
-          dockerfile: Dockerfile
+          dockerfile: backend/Dockerfile
           repo: rails6_vuejs
           region: AWS_REGION
           checkout: false
 
       - aws-ecr/build-and-push-image:
-          dockerfile: Dockerfile
+          dockerfile: frontend/Dockerfile
           repo: rails6_vuejs
           region: AWS_REGION
           checkout: false
