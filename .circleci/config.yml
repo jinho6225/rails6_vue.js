@@ -64,6 +64,10 @@ jobs:
             password: $DOCKERHUB_PASSWORD
     steps:
       - checkout
+      - run: 
+          name: Start build and push image to AWS-ECR
+          command: clear
+  
       - aws-ecr/build-and-push-image:          
           dockerfile: backend/Dockerfile
           repo: rails6_vuejs
