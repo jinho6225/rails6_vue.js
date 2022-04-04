@@ -71,7 +71,6 @@ jobs:
       - aws-ecr/build-and-push-image:
           repo: rails6_vuejs
           checkout: false
-          path: /home/circleci/project/backend
           region: AWS_REGION
           
 
@@ -89,6 +88,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
+          path: ../backend
 
       # - aws-ecs/deploy-service-update:
       #     requires:
