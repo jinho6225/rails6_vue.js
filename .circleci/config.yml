@@ -57,13 +57,13 @@ jobs:
       #     name: Starting app server
       #     command: cd backend; rails s -p 3000 -b '0.0.0.0'
 
-    aws-ecr/build-and-push-image:
-      steps:
-        - checkout
-        - aws-ecr/build-and-push-image:
-            path: ./backend
-            checkout: false
-            extra-build-args: --build-arg RAILS_ENV=development
+  aws-ecr/build-and-push-image:
+    steps:
+      - checkout
+      - aws-ecr/build-and-push-image:
+          path: ./backend
+          checkout: false
+          extra-build-args: --build-arg RAILS_ENV=development
 
 workflows:
   test_and_build:
