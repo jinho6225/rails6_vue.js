@@ -72,7 +72,7 @@ workflows:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
           path: ./backend          
-          region: AWS_REGION
+          region: "${AWS_REGION}"
 
       # - aws-ecs/deploy-service-update:
       #     requires:
