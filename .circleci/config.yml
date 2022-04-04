@@ -66,8 +66,6 @@ jobs:
     steps:
       - checkout
       - aws-ecr/build-and-push-image:
-          path: ./backend
-          checkout: false
           extra-build-args: --build-arg RAILS_ENV=development
 
 workflows:
@@ -84,6 +82,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
+          path: ./backend
 
 
 
