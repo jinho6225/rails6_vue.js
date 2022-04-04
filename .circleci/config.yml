@@ -71,8 +71,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
-          path: ./backend
-          repo: rails6_vuejs
+          path: ./backend          
           region: AWS_REGION
 
       # - aws-ecs/deploy-service-update:
