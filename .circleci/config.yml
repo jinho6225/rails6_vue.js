@@ -56,7 +56,7 @@ jobs:
       # - run: 
       #     name: Starting app server
       #     command: cd backend; rails s -p 3000 -b '0.0.0.0'
-  ecr_deploy:
+  aws-ecr/build-and-push-image:
     docker:
       - image: cimg/node:14.13.0
         auth:
@@ -91,7 +91,7 @@ workflows:
             branches:
               only:
                 - master
-      - ecr_deploy:
+      - aws-ecr/build-and-push-image:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
           account-url: ${AWS_ECR_ACCOUNT_URL}
