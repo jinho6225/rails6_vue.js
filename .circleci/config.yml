@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@8.0.0
+  aws-ecr: circleci/aws-ecr@6.12.2
   aws-ecs: circleci/aws-ecs@2.2.1
 
 jobs:
@@ -56,7 +56,7 @@ jobs:
       # - run: 
       #     name: Starting app server
       #     command: cd backend; rails s -p 3000 -b '0.0.0.0'
-  aws-ecr/build-and-push-image:
+  ecr_deploy:
     docker:
       - image: cimg/node:14.13.0
         auth:
@@ -68,7 +68,7 @@ jobs:
           name: Start build and push image to AWS-ECR
           command: clear
   
-      - aws-ecr/build-and-push-image:          
+      - aws-ecr/build-and-push-image:
           repo: rails6_vuejs
           checkout: false
           dockerfile: ./backend/Dockerfile
@@ -91,7 +91,7 @@ workflows:
             branches:
               only:
                 - master
-      - aws-ecr/build-and-push-image:
+      - ecr_deploy:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
           account-url: ${AWS_ECR_ACCOUNT_URL}
