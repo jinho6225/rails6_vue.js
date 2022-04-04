@@ -73,12 +73,14 @@ jobs:
           checkout: false
           dockerfile: ./backend/Dockerfile
           path: ./backend
+          region: AWS_REGION
           
       - aws-ecr/build-and-push-image:
           repo: rails6_vuejs          
           checkout: false                
           dockerfile: ./frontend/Dockerfile
           path: ./frontend
+          region: AWS_REGION
 
 workflows:
   test_and_build:
@@ -94,8 +96,6 @@ workflows:
       - aws-ecr/build-and-push-image:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
-          account-url: ${AWS_ECR_ACCOUNT_URL}
-          region: us-east-1
 
       # - aws-ecs/deploy-service-update:
       #     requires:
