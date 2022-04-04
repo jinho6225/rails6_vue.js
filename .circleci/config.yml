@@ -71,16 +71,16 @@ jobs:
       - aws-ecr/build-and-push-image:
           repo: rails6_vuejs
           checkout: false
-          dockerfile: ./backend/Dockerfile
+          dockerfile: Dockerfile
           path: ./backend
           region: AWS_REGION
           
-      - aws-ecr/build-and-push-image:
-          repo: rails6_vuejs          
-          checkout: false                
-          dockerfile: ./frontend/Dockerfile
-          path: ./frontend
-          region: AWS_REGION
+      # - aws-ecr/build-and-push-image:
+      #     repo: rails6_vuejs          
+      #     checkout: false                
+      #     dockerfile: ./frontend/Dockerfile
+      #     path: ./frontend
+      #     region: AWS_REGION
 
 workflows:
   test_and_build:
