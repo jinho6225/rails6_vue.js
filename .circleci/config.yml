@@ -71,7 +71,12 @@ workflows:
       - aws-ecr/build-and-push-image:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
-          path: ./backend          
+          path: ./backend
+          checkout: false
+          extra-build-args: --build-arg RAILS_ENV=development
+            --build-arg NODE_ENV=development
+
+
       # - aws-ecs/deploy-service-update:
       #     requires:
       #       - aws-ecr/build-and-push-image # only run this job once aws-ecr/build-and-push-image has completed
