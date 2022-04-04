@@ -73,6 +73,7 @@ workflows:
           tag: "${CIRCLE_SHA1}"
           path: ./backend          
           region: "${AWS_REGION}"
+          push-image: false
 
       # - aws-ecs/deploy-service-update:
       #     requires:
