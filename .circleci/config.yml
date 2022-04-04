@@ -71,7 +71,7 @@ jobs:
       - aws-ecr/build-and-push-image:
           repo: rails6_vuejs
           checkout: false
-          path: ../backend
+          path: /home/circleci/project/backend
           region: AWS_REGION
           
 
