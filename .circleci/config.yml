@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  aws-ecr: circleci/aws-ecr@6.12.2
+  aws-ecr: circleci/aws-ecr@8.0.0
   aws-ecs: circleci/aws-ecs@2.2.1
 
 jobs:
@@ -74,12 +74,6 @@ jobs:
           path: ./backend
           region: AWS_REGION
           
-      # - aws-ecr/build-and-push-image:
-      #     repo: rails6_vuejs          
-      #     checkout: false                
-      #     dockerfile: ./frontend/Dockerfile
-      #     path: ./frontend
-      #     region: AWS_REGION
 
 workflows:
   test_and_build:
