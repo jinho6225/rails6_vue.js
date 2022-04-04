@@ -56,24 +56,7 @@ jobs:
       # - run: 
       #     name: Starting app server
       #     command: cd backend; rails s -p 3000 -b '0.0.0.0'
-  aws-ecr/build-and-push-image:
-    docker:
-      - image: cimg/node:14.13.0
-        auth:
-            username: $DOCKERHUB_USER
-            password: $DOCKERHUB_PASSWORD
-    steps:
-      - checkout
-      - run: 
-          name: Start build and push image to AWS-ECR
-          command: clear
-  
-      - aws-ecr/build-and-push-image:
-          repo: rails6_vuejs
-          checkout: false
-          region: AWS_REGION
           
-
 workflows:
   test_and_build:
     jobs:
@@ -89,6 +72,8 @@ workflows:
           repo: "${AWS_RESOURCE_NAME_PREFIX}"
           tag: "${CIRCLE_SHA1}"
           path: ./backend
+          repo: rails6_vuejs
+          region: AWS_REGION
 
       # - aws-ecs/deploy-service-update:
       #     requires:
