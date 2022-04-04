@@ -56,7 +56,17 @@ jobs:
       # - run: 
       #     name: Starting app server
       #     command: cd backend; rails s -p 3000 -b '0.0.0.0'
-          
+
+    ecr_deploy:
+      steps:
+        - checkout
+        - aws-ecr/build-and-push-image:
+            repo: "${AWS_RESOURCE_NAME_PREFIX}"
+            tag: "${CIRCLE_SHA1}"
+            path: ./backend
+            checkout: false
+            extra-build-args: --build-arg RAILS_ENV=development
+
 workflows:
   test_and_build:
     jobs:
@@ -68,12 +78,9 @@ workflows:
             branches:
               only:
                 - master
-      - aws-ecr/build-and-push-image:
-          repo: "${AWS_RESOURCE_NAME_PREFIX}"
-          tag: "${CIRCLE_SHA1}"
-          path: ./backend
-          checkout: false
-          extra-build-args: --build-arg RAILS_ENV=development
+      - ecr_deploy:
+
+
 
 
       # - aws-ecs/deploy-service-update:
